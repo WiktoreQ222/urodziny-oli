@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wszystkiego najlepszego, Ola! 🎂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #FFF7EE;
+    --pink: #FF7AA2;
+    --pink-deep: #E85B85;
+    --peach: #FFC46B;
+    --mint: #8FDCC7;
+    --plum: #4A2545;
+    --plum-soft: #7A5B72;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: var(--cream);
+    font-family: 'Nunito', sans-serif;
+    color: var(--plum);
+    overflow-x: hidden;
+  }
+
+  .stage{
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+  }
+
+  /* soft blob backdrop shapes */
+  .blob{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+    opacity: 0.55;
+    z-index: 0;
+  }
+  .blob.b1{ width: 260px; height: 260px; background: var(--peach); top: -60px; left: -60px; }
+  .blob.b2{ width: 200px; height: 200px; background: var(--mint); bottom: -40px; right: -40px; }
+  .blob.b3{ width: 140px; height: 140px; background: var(--pink); bottom: 10%; left: 4%; opacity: 0.35; }
+
+  .card{
+    position: relative;
+    z-index: 2;
+    max-width: 620px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 32px;
+    padding: 56px 44px 48px;
+    text-align: center;
+    box-shadow: 0 30px 60px -20px rgba(232, 91, 133, 0.35);
+  }
+
+  .topper{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .candle{
+    width: 8px;
+    height: 34px;
+    border-radius: 4px;
+    position: relative;
+    animation: sway 2.6s ease-in-out infinite;
+  }
+  .candle:nth-child(1){ background: var(--pink); animation-delay: 0s; }
+  .candle:nth-child(2){ background: var(--peach); height: 44px; animation-delay: 0.3s;}
+  .candle:nth-child(3){ background: var(--mint); animation-delay: 0.15s;}
+  .candle:nth-child(4){ background: var(--pink-deep); animation-delay: 0.45s;}
+  .flame{
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 14px;
+    background: radial-gradient(circle at 50% 30%, #FFE9A8, #FFB648 60%, #FF8A3D);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flicker 1.1s ease-in-out infinite alternate;
+  }
+  @keyframes flicker{
+    from{ transform: translateX(-50%) scale(1) rotate(-2deg); }
+    to{ transform: translateX(-50%) scale(1.15) rotate(3deg); }
+  }
+  @keyframes sway{
+    0%,100%{ transform: rotate(-1.5deg); }
+    50%{ transform: rotate(1.5deg); }
+  }
+
+  .eyebrow-name{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--pink-deep);
+    margin: 0 0 4px;
+  }
+
+  h1{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.1rem, 6vw, 3rem);
+    line-height: 1.1;
+    margin: 0 0 22px;
+    color: var(--plum);
+  }
+
+  .message{
+    font-size: 1.08rem;
+    line-height: 1.75;
+    color: var(--plum-soft);
+    max-width: 46ch;
+    margin: 0 auto 30px;
+    text-align: left;
+  }
+  .message p{ margin: 0 0 16px; }
+  .message p:last-child{ margin-bottom: 0; }
+
+  .divider{
+    width: 64px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--pink), var(--peach));
+    border-radius: 4px;
+    margin: 0 auto 28px;
+  }
+
+  .signature{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--pink-deep);
+  }
+  .signature span{
+    display: block;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--plum-soft);
+    margin-top: 4px;
+  }
+
+  /* confetti — single celebratory burst on load */
+  .confetti{
+    position: fixed;
+    top: -20px;
+    width: 10px;
+    height: 16px;
+    opacity: 0.9;
+    animation-name: fall;
+    animation-timing-function: cubic-bezier(.25,.46,.45,.94);
+    animation-fill-mode: forwards;
+    z-index: 5;
+    pointer-events: none;
+  }
+  @keyframes fall{
+    to{ transform: translateY(105vh) rotate(360deg); opacity: 0.4; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .candle, .flame{ animation: none; }
+    .confetti{ display: none; }
+  }
+
+  @media (max-width: 480px){
+    .card{ padding: 40px 26px 36px; border-radius: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
+  <div class="card">
+    <div class="topper">
+      <div class="candle"><div class="flame"></div></div>
+      <div class="candle"><div class="flame"></div></div>
+      <div class="candle"><div class="flame"></div></div>
+      <div class="candle"><div class="flame"></div></div>
+    </div>
+
+    <p class="eyebrow-name">Dla Oli</p>
+    <h1>Wszystkiego<br>najlepszego! 🎉</h1>
+
+    <div class="message">
+      <p>Wszystkiego najlepszego z okazji urodzin! Dużo szczęścia, zdrowia i czego sobie zamarzysz, kochanie.</p>
+      <p>Powodzenia w drugiej klasie — niech ten rok przyniesie Ci same sukcesy.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="signature">Kocham Cię
+      <span>i zawsze będę przy Tobie</span>
+    </p>
+  </div>
+</div>
+
+<script>
+  const colors = ['#FF7AA2', '#FFC46B', '#8FDCC7', '#E85B85'];
+  const total = 60;
+  for(let i = 0; i < total; i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+    c.style.animationDelay = (Math.random() * 1.2) + 's';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 6000);
+  }
+</script>
+
+</body>
+</html>
